@@ -1,12 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:beyole="http://schemas.android.com/apk/res/com.beyole.imagedetails"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-   >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+    <com.beyole.view.ImageDetailsView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        beyole:titleColor="#ff0000"
+        beyole:titleImage="@drawable/beauty"
+        beyole:titleImageScope="fillXY"
+        beyole:titleSize="12sp"
+        beyole:titleText="heelo" />
 
 </RelativeLayout>
