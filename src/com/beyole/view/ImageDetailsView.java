@@ -171,6 +171,7 @@ public class ImageDetailsView extends View implements OnClickListener {
 		public void onclick();
 	}
 
+	// 设置单击事件监听器
 	public void setImageDetailsViewOnclickListener(ImageDetailsViewListener listener) {
 		this.mListener = listener;
 	}
