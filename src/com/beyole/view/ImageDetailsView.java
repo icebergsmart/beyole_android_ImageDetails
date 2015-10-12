@@ -15,10 +15,12 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.beyole.imagedetails.R;
 
-public class ImageDetailsView extends View {
+public class ImageDetailsView extends View implements OnClickListener {
 	private String mTitleText;
 	private int mTitleSize;
 	private int mTitleColor;
@@ -32,6 +34,12 @@ public class ImageDetailsView extends View {
 	public static final int IMAGEFILLXY = 0;
 	public static final int IMAGECENTER = 1;
 
+	private ImageDetailsViewListener mListener = null;
+
+	private long firstClick;
+	private long lastClick;
+	private int BORDER_COLOR = 0xff00ffff;
+
 	public ImageDetailsView(Context context) {
 		this(context, null);
 	}
@@ -42,16 +50,18 @@ public class ImageDetailsView extends View {
 
 	public ImageDetailsView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		// 初始化时监听触发事件
+		setOnClickListener(this);
 		TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ImageDetailsView, defStyle, 0);
 		int n = a.getIndexCount();
-		Log.i("test","自定义的属性个数为："+n);
+		Log.i("test", "自定义的属性个数为：" + n);
 		for (int i = 0; i < n; i++) {
 			int attr = a.getIndex(i);
-			Log.i("test","自定义的属性为："+attr);
+			Log.i("test", "自定义的属性为：" + attr);
 			switch (attr) {
 			case R.styleable.ImageDetailsView_titleText:
 				mTitleText = a.getString(attr);
-				Log.i("test","自定义属性text为:"+a.getString(attr));
+				Log.i("test", "自定义属性text为:" + a.getString(attr));
 				break;
 			case R.styleable.ImageDetailsView_titleSize:
 				mTitleSize = a.getDimensionPixelSize(attr, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20, getResources().getDisplayMetrics()));
@@ -74,7 +84,7 @@ public class ImageDetailsView extends View {
 		mTextBound = new Rect();
 		// 绘制字体需要的范围
 		mPaint.setTextSize(mTitleSize);
-		Log.i("test","文字是:"+mTitleText);
+		Log.i("test", "文字是:" + mTitleText);
 		mPaint.getTextBounds(mTitleText, 0, mTitleText.length(), mTextBound);
 	}
 
@@ -121,7 +131,7 @@ public class ImageDetailsView extends View {
 		// 设置画笔风格
 		mPaint.setStyle(Paint.Style.STROKE);
 		// 设置画笔颜色
-		mPaint.setColor(Color.CYAN);
+		mPaint.setColor(BORDER_COLOR);
 		canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), mPaint);
 
 		// 绘制文字
@@ -155,5 +165,25 @@ public class ImageDetailsView extends View {
 			mRect.bottom = (mHeight - mTextBound.height()) / 2 + mImage.getHeight() / 2;
 			canvas.drawBitmap(mImage, null, mRect, mPaint);
 		}
+	}
+
+	public interface ImageDetailsViewListener {
+		public void onclick();
+	}
+
+	public void setImageDetailsViewOnclickListener(ImageDetailsViewListener listener) {
+		this.mListener = listener;
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (mListener == null) {
+			mListener = new ImageDetailsViewListener() {
+				@Override
+				public void onclick() {
+				}
+			};
+		}
+		mListener.onclick();
 	}
 }

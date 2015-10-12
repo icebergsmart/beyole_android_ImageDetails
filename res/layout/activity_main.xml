@@ -5,6 +5,7 @@
     android:layout_height="match_parent" >
 
     <com.beyole.view.ImageDetailsView
+        android:id="@+id/id_imageDetailsView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="10dp"
